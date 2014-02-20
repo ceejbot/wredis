@@ -1,11 +1,15 @@
-var redis = require('redis')
-  , assert = require('assert')
+var assert = require('assert')
   , commands = require('./commands')
+  , events = require('events')
+  , redis = require('redis')
+  , util = require('util')
 
 var Wredis = module.exports = function Wredis(opts) {
   assert(opts && typeof opts === 'object', "You must pass an options object.")
   assert(opts.writer && opts.writer.port, "You must pass a `writer` options field with at least a port spec")
   assert(opts.reader && opts.reader.port, "You must pass a `reader` options field with at least a port spec")
+
+  events.EventEmitter.call(this)
 
   this.writer = redis.createClient(opts.writer.port, opts.writer.host, opts)
   this.reader = redis.createClient(opts.reader.port, opts.reader.host, opts)
@@ -19,6 +23,7 @@ var Wredis = module.exports = function Wredis(opts) {
   self[c] = function() { return self.writer[c].apply(self.writer, arguments); }
   })
 }
+util.inherits(Wredis, events.EventEmitter)
 
 Wredis.prototype.writer = null
 Wredis.prototype.reader = null
@@ -57,4 +62,9 @@ Wredis.prototype.quit = function quit(callback) {
       callback(err, reply)
     })
   })
+}
+
+Wredis.prototype.end = function end() {
+  this.writer.end()
+  this.reader.end()
 }

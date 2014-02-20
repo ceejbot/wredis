@@ -1,7 +1,7 @@
 {
   "name": "wredis",
-  "version": "0.0.1",
-  "description": "a read-write wrapper for redis",
+  "version": "0.0.2",
+  "description": "a read-write redis wrapper",
   "main": "index.js",
   "scripts": {
     "test": "mocha -R spec tests.js"
