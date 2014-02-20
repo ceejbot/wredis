@@ -1,0 +1,29 @@
+{
+  "name": "wredis",
+  "version": "0.0.1",
+  "description": "a read-write wrapper for redis",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -R spec tests.js"
+  },
+  "keywords": [
+    "read",
+    "write",
+    "redis",
+    "wrapper"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "redis": "^0.10.1"
+  },
+  "devDependencies": {
+    "must": "^0.11.0",
+    "mocha": "^1.17.1",
+    "sinon": "^1.8.2"
+  },
+  "contributors": [
+    "C J Silverio <ceej@npmjs.com>",
+    "Raquel Velez <raquel@npmjs.com>"
+  ]
+}
