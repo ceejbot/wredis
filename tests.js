@@ -70,6 +70,24 @@ describe('Wredis', function() {
         client.addListener.must.be.a.function()
     })
 
+    it('can call auth', function(done) {
+        client.auth('foo', function(err, reply) {
+            // console.log(err, reply)
+            client.get('foo', function(err, reply) {
+                done()
+            })
+        })
+    })
+
+    it('can call select', function(done) {
+        client.select(1, function(err, reply) {
+            // reader & writer should now both be pointing to db 1
+            client.get('foo', function(err, reply) {
+                done()
+            })
+        })
+    })
+
     after(function(done) {
         client.del('foo', function(err, reply) {
             client.quit(function(err) {

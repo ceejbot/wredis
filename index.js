@@ -16,11 +16,11 @@ var Wredis = module.exports = function Wredis(opts) {
 
   var self = this
   commands.read.forEach(function(c) {
-  self[c] = function() { return self.reader[c].apply(self.reader, arguments); }
+    self[c] = function() { return self.reader[c].apply(self.reader, arguments); }
   })
 
   commands.write.forEach(function(c) {
-  self[c] = function() { return self.writer[c].apply(self.writer, arguments); }
+    self[c] = function() { return self.writer[c].apply(self.writer, arguments); }
   })
 }
 util.inherits(Wredis, events.EventEmitter)
@@ -29,39 +29,18 @@ Wredis.prototype.writer = null
 Wredis.prototype.reader = null
 
 Wredis.prototype.auth = function auth(pass, callback) {
-  var self = this
-  if (!callback) callback = function() {}
-
-  self.writer.auth(pass, function(err, reply) {
-    if (err) return callback(err)
-    self.reader.auth(pass, function(err, reply) {
-      callback(err, reply)
-    })
-  })
+  this.writer.auth(pass)
+  this.reader.auth(pass, callback)
 }
 
 Wredis.prototype.select = function select(index, callback) {
-  var self = this
-  if (!callback) callback = function() {}
-
-  self.writer.select(index, function(err, reply) {
-    if (err) return callback(err)
-    self.reader.select(index, function(err, reply) {
-      callback(err, reply)
-    })
-  })
+  this.writer.select(index)
+  this.reader.select(index, callback)
 }
 
 Wredis.prototype.quit = function quit(callback) {
-  var self = this
-  if (!callback) callback = function() {}
-
-  self.writer.quit(function(err, reply) {
-    if (err) return callback(err)
-    self.reader.quit(function(err, reply) {
-      callback(err, reply)
-    })
-  })
+  this.writer.quit()
+  this.reader.quit(callback)
 }
 
 Wredis.prototype.end = function end() {

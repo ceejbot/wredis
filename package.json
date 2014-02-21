@@ -1,6 +1,6 @@
 {
   "name": "wredis",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "a read-write redis wrapper",
   "main": "index.js",
   "scripts": {
